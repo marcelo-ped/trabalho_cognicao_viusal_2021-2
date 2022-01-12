@@ -40,23 +40,7 @@ import argparse
 
 
 use_cache = 0
-####ORIGINALLLL#####
-"""
-def load_train():
-    '''Give path of the dataset .csv file of training data below'''
-    df = pd.read_csv(r'/home/marcelo/Documentos/Distracted-Driver-Detection/auc.distracted.driver.train.csv')
-    x = df.iloc[:,0] 
-    y = df.iloc[:,1]
-    X_train = []
-    Y_train = []
-    print('Read test images')
-    for i in range (0,len(x)):
-        fl=x[i]
-        img = get_im_cv2(fl)
-        X_train.append(img)
-        Y_train.appen d(y[i])
-    return X_train, Y_train
-"""
+
 x_test = []
 y_test = []
 
@@ -65,125 +49,16 @@ def get_im_cv2(path):
     resized = cv2.resize(src=img, dsize=(128, 128), interpolation=cv2.INTER_LINEAR)
     return resized
 
-def load_train():
-    '''Give path of the dataset .csv file of training data below'''
-    folder_root_name = '/home/marcelo/Downloads/Frames_29k_organizado_previamente_motorista_fora_do_treino_5/train'
-    folder_root = os.listdir(folder_root_name)
-    x = []
-    y = []
-    cont = 0
-    for dir in folder_root:
-        images_folder = os.listdir(folder_root_name + "/" + dir)
-        for i in range(0 ,  int(len(images_folder))):
-            #random.shuffle(images_folder)
-            if images_folder[i].endswith('jpg'): #and images_folder[i].find("01_") != -1:
-                
-                print(folder_root_name + "/" + dir + "/" + images_folder[i])
-                #x.append(folder_root_name + "/" + dir + "/" + images_folder[i])
-                x.append(folder_root_name + "/" + dir + "/" + images_folder[i])
-                y.append(dir[1])
-                """ print(dir[1])
-                if cont >= 40:
-                    cont = 0
-                    break
-                cont += 1
-                """
-    X_train = []
-    Y_train = []
-    print('Read train images')
-    for i in range (0, int(len(x))):
-        fl=x[i]
-        img = get_im_cv2(fl)
-        X_train.append(img)
-        Y_train.append(y[i])
-    return X_train, Y_train
-"""
-
-def get_im_cv2(path):
-    img = cv2.imread(path)
-    resized = cv2.resize(src=img, dsize=(128, 128), interpolation=cv2.INTER_LINEAR)
-    return resized
-
-
-def load_train():
-    '''Give path of the dataset .csv file of training data below'''
-    folder_root_name = '/home/marcelo/Downloads/Frames_reduzidos'
-    folder_root = os.listdir(folder_root_name)
-    x = []
-    y = []
-    cont = 0
-    X_train = []
-    Y_train = []
-    for dir in folder_root:
-        images_folder = os.listdir(folder_root_name + "/" + dir)
-        for i in range(0 ,  int(len(images_folder))):
-            #random.shuffle(images_folder)
-            if images_folder[i].endswith('jpg') and images_folder[i].find("01_") != -1:
-                
-                print(folder_root_name + "/" + dir + "/" + images_folder[i])
-                if cont < 30:
-                    img = get_im_cv2(folder_root_name + "/" + dir + "/" + images_folder[i])
-                    X_train.append(img)
-                    Y_train.append(dir[1])
-                else:
-                    img = get_im_cv2(folder_root_name + "/" + dir + "/" + images_folder[i])
-                    x_test.append(img)
-                    y_test.append(dir[1])
-                #x.append(folder_root_name + "/" + dir + "/" + images_folder[i])
-                x.append(folder_root_name + "/" + dir + "/" + images_folder[i])
-                y.append(dir[1])
-                print(dir[1])
-                if cont >= 40:
-                    cont = 0
-                    break
-                cont += 1
-    return X_train, Y_train
-
-"""
-
-def load_train_1(path):
+def load_train(path):
     '''Give path of the dataset .csv file of training data below'''
     '''Give path of the dataset .csv file of training data below'''
     #df = pd.read_csv(r'/home/marcelo/Downloads/v1_cam1_no_split/Train_data_list.csv')
     df = pd.read_csv(os.path.join(path, 'train.csv'))
     x = df.iloc[:,0]
     y = df.iloc[:,1]
-    x1 = []
-    for i in x:
-        aux = str(i).replace("/distracted.driver", "/home/marcelo/Downloads/v1_cam1_no_split")
-        x1.append(aux)
     X_train = []
     Y_train = []
     print('Read train images')
-    for i in range (0,len(x)):
-        fl=x1[i]
-        img = get_im_cv2(fl)
-        X_train.append(img)
-        Y_train.append(y[i])
-    return X_train, Y_train
-
-
-
-def load_valid():
-    '''Give path of .csv file of test data below'''
-    #df = pd.read_csv(r'/home/marcelo/Documentos/Distracted-Driver-Detection/auc.distracted.driver.test.csv')
-    '''Give path of the dataset .csv file of training data below'''
-    folder_root_name = '/home/marcelo/Downloads/Frames_29k_organizado_previamente_motorista_fora_do_treino_5/test'
-    folder_root = os.listdir(folder_root_name)
-    x = []
-    y = []
-    cont = 0
-    for dir in folder_root:
-        images_folder = os.listdir(folder_root_name + "/" + dir)
-        random.shuffle(images_folder)
-        for i in range(0 , int(len(images_folder))):
-            if images_folder[i].endswith('jpg'):
-                print(folder_root_name + "/" + dir + "/" + images_folder[i])
-                x.append(folder_root_name + "/" + dir + "/" + images_folder[i])
-                y.append(dir[1])
-    X_train = []
-    Y_train = []
-    print('Read test images')
     for i in range (0,len(x)):
         fl=x[i]
         img = get_im_cv2(fl)
@@ -197,15 +72,11 @@ def load_valid_1(path):
     df = pd.read_csv(os.path.join(path, 'valid.csv'))
     x = df.iloc[:,0]
     y = df.iloc[:,1]
-    x1 = []
-    for i in x:
-        aux = str(i).replace("/distracted.driver", "/home/marcelo/Downloads/v1_cam1_no_split")
-        x1.append(aux)
     X_valid = []
     Y_valid = []
     print('Read test images')
     for i in range (0,len(x)):
-        fl=x1[i] 
+        fl=x[i] 
         img = get_im_cv2(fl)
         X_valid.append(img)
         Y_valid.append(y[i])
@@ -213,19 +84,14 @@ def load_valid_1(path):
 
 def load_test_1(path):
     '''Give path of .csv file of test data below'''
-    #df = pd.read_csv(r'/home/marcelo/Downloads/v1_cam1_no_split/Test_data_list.csv')
     df = pd.read_csv(os.path.join(path, 'test.csv'))
     x = df.iloc[:,0]
     y = df.iloc[:,1]
-    x1 = []
-    for i in x:
-        aux = str(i).replace("/distracted.driver", "/home/marcelo/Downloads/v1_cam1_no_split")
-        x1.append(aux)
     X_valid = []
     Y_valid = []
     print('Read test images')
     for i in range (0,len(x)):
-        fl=x1[i] 
+        fl=x[i] 
         img = get_im_cv2(fl)
         X_valid.append(img)
         Y_valid.append(y[i])
@@ -256,14 +122,8 @@ def restore_data(path):
 
 
 def read_and_normalize_train_data(path):
-    cache_path = os.path.join('/home/marcelo/Documentos/Distracted-Driver-Detection','cache', 'train_r_' + str(128) + '_c_' + str(128) + '_t_' + str(3) + '.dat')
-    if not os.path.isfile(cache_path) or use_cache == 0:
-        train_data, train_target= load_train_1(path)
-        #cache_data((train_data, train_target), cache_path)
-    else:
-        print('Restore train from cache!')
-        #(train_data, train_target) = restore_data(cache_path)
     
+    train_data, train_target= load_train(path)
     print('Convert to numpy...')
     train_data = np.array(train_data, dtype=np.uint8)
     train_target = np.array(train_target, dtype=np.uint8)
@@ -299,16 +159,9 @@ def read_and_normalize_train_data(path):
 
 def read_and_normalize_valid_data(path):
     start_time = time.time()
-    #os.mkdir(str(os.path.join('/home/marcelo/Documentos/Distracted-Driver-Detection','cache')))
-    cache_path = os.path.join('/home/marcelo/Documentos/Distracted-Driver-Detection','cache', 'test_r_' + str(128) + '_c_' + str(128) + '_t_' + str(3) + '.dat')
-
-    if not os.path.isfile(cache_path) or use_cache == 0:
-        test_data, test_target = load_valid_1(path) #x_test, y_test
-        #cache_data((test_data, test_target ), cache_path)
-    else:
-        print('Restore test from cache [{}]!')
-        #(test_data, test_target) = restore_data(cache_path)
-
+    
+    test_data, test_target = load_valid_1(path) #x_test, y_test
+    
     test_data = np.array(test_data, dtype=np.uint8)
     test_data = test_data.transpose((0, 1, 2, 3))
 
@@ -331,15 +184,8 @@ def read_and_normalize_valid_data(path):
 
 def read_and_normalize_test_data(path):
     start_time = time.time()
-    #os.mkdir(str(os.path.join('/home/marcelo/Documentos/Distracted-Driver-Detection','cache')))
-    cache_path = os.path.join('/home/marcelo/Documentos/Distracted-Driver-Detection','cache', 'test_r_' + str(128) + '_c_' + str(128) + '_t_' + str(3) + '.dat')
 
-    if not os.path.isfile(cache_path) or use_cache == 0:
-        test_data, test_target = load_test_1(path) #x_test, y_test
-        #cache_data((test_data, test_target ), cache_path)
-    else:
-        print('Restore test from cache [{}]!')
-        #(test_data, test_target) = restore_data(cache_path)
+    test_data, test_target = load_test_1(path) #x_test, y_test
 
     test_data = np.array(test_data, dtype=np.uint8)
     test_data = test_data.transpose((0, 1, 2, 3))
@@ -536,17 +382,7 @@ def train_model(path_to_train_dataset):
     
     X_train, Y_train = read_and_normalize_train_data(path_to_train_dataset)
     X_valid, Y_valid = read_and_normalize_valid_data(path_to_train_dataset)
-    print("SHAPE!!!!")
-    print(X_valid.shape[0])
-    print(X_train.shape[0])
-    """
-    gpus = tf.config.experimental.list_physical_devices('GPU')
-    if gpus:
-        try:
-            tf.config.experimental.set_virtual_device_configuration(gpus[0], [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=9216)])
-        except RuntimeError as e:
-            print(e)
-    """
+    
     #Data augmentation
     
     datagen = ImageDataGenerator(
@@ -564,7 +400,10 @@ def train_model(path_to_train_dataset):
 
     model.compile(adam, loss='categorical_crossentropy',metrics=['accuracy'])
     
-    weights_path=os.path.join('/home/marcelo/Documentos/Distracted-Driver-Detection','Checkpoint','weights.h5')       
+    if not os.path.isdir(os.path.join(os.getcwd(), 'Checkpoint')):
+        os.mkdir(os.path.join(os.getcwd(), 'Checkpoint'))
+    
+    weights_path=os.path.join(os.getcwd(), 'Checkpoint', 'weights.h5')       
     callbacks = [ModelCheckpoint(weights_path, monitor='val_acc', save_weights_only=True, verbose=1)]
 
     #with tf.device('/GPU:0'):
@@ -573,7 +412,7 @@ def train_model(path_to_train_dataset):
            verbose=1, validation_data=(X_valid, Y_valid), callbacks=callbacks)
 
 
-    pd.DataFrame(hist.history).to_csv("/home/marcelo/Documentos/Distracted-Driver-Detection/cache/try_hist.csv")
+    pd.DataFrame(hist.history).to_csv(os.path.join(os.getcwd(), 'Checkpoint', 'try_hist.csv'))
 
     predictions_valid = model.predict(X_valid.astype('float32'), batch_size=batch_size, verbose=1)
     cm1=confusion_matrix(Y_valid.argmax(axis=1), predictions_valid.argmax(axis=1))
@@ -581,7 +420,7 @@ def train_model(path_to_train_dataset):
     #test_accuracy=np.divide(ss,X_valid.shape[0]);
     #print('Test Accuracy:',test_accuracy)
     
-    ppath=os.path.join('/home/marcelo/Documentos/Distracted-Driver-Detection','cache','confusion_mat.npy')
+    ppath=os.path.join(os.path.join(os.getcwd(),'Checkpoint','confusion_mat.npy'))
     np.save(ppath, cm1)
 
 def test_model(path_weight, path_to_test_dataset):
