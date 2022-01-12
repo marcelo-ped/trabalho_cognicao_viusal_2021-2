@@ -435,8 +435,8 @@ def test_model(path_weight, path_to_test_dataset):
 if __name__ == '__main__':
     #print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
     prog_parser = argparse.ArgumentParser()
-    prog_parser.add_argument('--dataset', action = 'store', type = str, required = True)
-    prog_parser.add_argument('--test', action = 'store', type = str)
+    prog_parser.add_argument('--dataset', action = 'store', type = str, required = True, help= 'path to the folder that contains the .csv files')
+    prog_parser.add_argument('--test', action = 'store', type = str, help= 'path to the folder that contain the network (.h5 file)')
     args = prog_parser.parse_args()
     if not( args.dataset or args.test):
         prog_parser.error('No arguments provided')
